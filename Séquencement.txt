@@ -1,0 +1,31 @@
+--------- EEPROM --------- 
+
+Horaires d'arrosage :
+heure début
+minute début
+
+heure fin
+minute fin
+
+
+--------- SEQUENCE ---------
+
+SETUP :
+On lit et stock les datas de l'EPPROM (Option)
+Connecte le wifi (setup)
+Bien activer le light sleep (wifi_set_sleep_type(LIGHT_SLEEP_T);)
+
+LOOP :
+On demande l'heure (NTP).
+
+SI heure courante > heure début - 1 && heure courante < heure fin
+	Requete API Météo France : SI Probablité de pluie dans les 48h > 60%?
+		On active le mode OFF avec plein de delays pour tenir le temps restant avec heure fin
+
+Deep Sleep 1h.
+
+
+	
+
+
+
