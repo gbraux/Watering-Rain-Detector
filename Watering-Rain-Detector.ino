@@ -14,6 +14,7 @@
 #include "Timezone.h"
 #include "JsonStreamingParser.h"
 #include "MeteoParser.h"
+#include "HTTPTime.h"
 
 extern "C" {
 #include "user_interface.h"
@@ -146,13 +147,14 @@ void loop()
   // On change le mode de someil (light sleep = pendant les delays, le modem wifi se coupe
   wifi_set_sleep_type(LIGHT_SLEEP_T);
 
+
   int epochVal;
   int gotTime = 0;
 
   int i = 0;
   while (!gotTime)
   {
-    epochVal = getNtpTime();
+    epochVal = GetHTTPTime();
 
     if (epochVal != 0)
     {
@@ -611,14 +613,6 @@ int getRainProb()
       nbError = nbError + 1;
     }
 
-
-
-
-
-
-
-
-
     if (nbError > 10) {
       Serial.println("Trop d'erreurs, on deepsleep");
       ESP.deepSleep( standardDeepSleepTs * 1000000 );
@@ -665,3 +659,55 @@ void SendStatusToCloud(int willRain) {
     i = i+1;
   }
 }
+
+
+int GetHTTPTime() {
+
+  String dateTime;
+  HTTPClient http;
+  http.begin("http://www.google.com");
+  
+  const char* headerNames[] = { "date" };
+  http.collectHeaders(headerNames, sizeof(headerNames)/sizeof(headerNames[0]));
+  
+  int rc = http.GET();
+  if (rc >0) {
+    dateTime = http.header("date");
+  }
+  else {
+    Serial.println("Erreur HTTP Date");
+    http.end();
+    return 0;
+  };
+
+  http.end();
+
+  Serial.println("Date obtenu de google.com : "+dateTime);
+
+  String http_hr = extractHourFromDateTimeString(dateTime);
+  String http_min = extractMinuteFromDateTimeString(dateTime);
+  String http_sec = extractSecondFromDateTimeString(dateTime);
+  String http_day = extractDayFromDateTimeString(dateTime);
+  String http_month = translateMonth(extractMonthFromDateTimeString(dateTime));
+  String http_year = extractYearFromDateTimeString(dateTime);
+
+  setTime(http_hr.toInt(),http_min.toInt(),http_sec.toInt(),http_day.toInt(),http_month.toInt(),http_year.toInt());
+  int currentT = now();
+  Serial.println("Timestamp GMT Google.com : "+(String)currentT);
+
+  return currentT;
+
+
+/*
+  t.tm_year = 2011-1900;
+  t.tm_mon = 7;           // Month, 0 - jan
+  t.tm_mday = 8;          // Day of the month
+  t.tm_hour = 16;
+  t.tm_min = 11;
+  t.tm_sec = 42;
+  t.tm_isdst = -1;        // Is DST on? 1 = yes, 0 = no, -1 = unknown
+  t_of_day = mktime(&t);
+*/
+}
+
+
