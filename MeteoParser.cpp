@@ -13,12 +13,13 @@ void MeteoListener::startDocument() {
 void MeteoListener::key(String key) {
   //Serial.println("key: " + key);
 
-  if (key == "previsions48h") {
-    Serial.println("JSON : Prévision48h object found");
-    previsionsFound = true;
-  }
+//  if (key == "forecast") {
+//    Serial.println("JSON : forcast object found");
+//    previsionsFound = true;
+//  }
 
-  if (previsionsFound && (key == "probaPluie")) {
+  //if (previsionsFound && (key == "pop")) {
+  if (key == "pop") {
     //Serial.println("JSON : probaPluie key found");
     probaPluieFound = true;
   }
@@ -29,8 +30,8 @@ void MeteoListener::value(String value) {
 
 
 
-  if (probaPluieFound && currentSlot <= 7) {
-    Serial.println("JSON : probaPluie value found : " + value);
+  if (probaPluieFound && currentSlot <= 24) {
+    //Serial.println("JSON : probaPluie value found : " + value);
     probaPluies[currentSlot] = atoi(value.c_str());
     currentSlot++;
 

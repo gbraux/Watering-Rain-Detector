@@ -5,7 +5,7 @@
 class MeteoListener: public JsonListener {
 
   public:
-    int probaPluies[8] = {0};
+    int probaPluies[24] = {0};
     bool previsionsFound = false;
     bool probaPluieFound = false;
     int currentSlot = 0;

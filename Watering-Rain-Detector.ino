@@ -33,7 +33,9 @@ const int startTimeMin = 45;
 const int wateringDurationMin = 45;
 const int Rainthreshold = 60;
 const int rainCheckHoursForward = 24;
-const int slotCount = ceil(rainCheckHoursForward / 3);
+// USED BY METEO FRANCE API - NOT NEADED WITH WU
+//const int slotCount = ceil(rainCheckHoursForward / 3);
+const int slotCount = 24;
 int maxRainValueDetected = -1;
 
 // -> GPIO / Sleep
@@ -42,7 +44,8 @@ const int  standardDeepSleepTs = 3600;
 
 // -> Météo France API
 #define INSEE_CODE 78171
-#define MF_API_URL "http://www.meteo-france.mobi/ws/getDetail/france/781710.json"
+//#define MF_API_URL "http://www.meteo-france.mobi/ws/getDetail/france/781710.json"
+#define MF_API_URL "http://api.wunderground.com/api/94f6aa88e6ea50ec/hourly/lang:FR/q/France/adainville.json"
 
 // -> NTP
 const unsigned int localPort = 2390; // local port to listen for UDP packets
@@ -85,7 +88,6 @@ struct HMS_TIME
   int hours;
 };
 struct HMS_TIME startTime, stopTime, currentTime, diff;
-
 
 void setup()
 {
@@ -382,7 +384,7 @@ void connectWifi() {
       Serial.println("WiFi connected");
       Serial.println("IP address: ");
       Serial.println(WiFi.localIP());
-      delay(1000);
+      //delay(1000);
       connected = 1;
     }
     else if (j > 5) {
@@ -504,13 +506,13 @@ time_t getNtpTime()
 
 int getRainProb()
 {
-  int currentProbaPluie[8] = {0};
+  int currentProbaPluie[24] = {0};
 
   int sendOK = 0;
   int nbError = 0;
   while (!sendOK)
   {
-    connectWifi();
+    //connectWifi();
     Serial.println("Start sending HTTP GET request to Meteo France");
     HTTPClient http;
     http.begin(MF_API_URL); //HTTP
@@ -555,7 +557,7 @@ int getRainProb()
             int c = stream->readBytes(buff, ((size > sizeof(buff)) ? sizeof(buff) : size));
             
             for (int i = 0; i < c; i++) {
-              parser.parse((char)buff[i]); 
+              parser.parse((char)buff[i]);
             }  
 
             if (len > 0)
@@ -564,20 +566,27 @@ int getRainProb()
             }
           }
         }
-          memcpy(currentProbaPluie,listener.probaPluies,8*sizeof(int));
+          memcpy(currentProbaPluie,listener.probaPluies,24*sizeof(int));
           delay(1);
 
           http.end();
-          
+
+          Serial.println(system_get_free_heap_size());
+
           Serial.println("Progabilité de pluie : ");
-          Serial.println("--> +3h : " + (String)currentProbaPluie[0] + "%");
-          Serial.println("--> +6h : " + (String)currentProbaPluie[1] + "%");
-          Serial.println("--> +9h : " + (String)currentProbaPluie[2] + "%");
-          Serial.println("--> +12h : " + (String)currentProbaPluie[3] + "%");
-          Serial.println("--> +15h : " + (String)currentProbaPluie[4] + "%");
-          Serial.println("--> +18h : " + (String)currentProbaPluie[5] + "%");
-          Serial.println("--> +21h : " + (String)currentProbaPluie[6] + "%");
-          Serial.println("--> +24h : " + (String)currentProbaPluie[7] + "%");
+          for (int i = 0; i<24;i++)
+          {
+            int y = i+1;
+            Serial.println("--> +" + (String)y + "h : " + (String)currentProbaPluie[i] + "%");
+          }
+//          Serial.println("--> +3h : " + (String)currentProbaPluie[0] + "%");
+//          Serial.println("--> +6h : " + (String)currentProbaPluie[1] + "%");
+//          Serial.println("--> +9h : " + (String)currentProbaPluie[2] + "%");
+//          Serial.println("--> +12h : " + (String)currentProbaPluie[3] + "%");
+//          Serial.println("--> +15h : " + (String)currentProbaPluie[4] + "%");
+//          Serial.println("--> +18h : " + (String)currentProbaPluie[5] + "%");
+//          Serial.println("--> +21h : " + (String)currentProbaPluie[6] + "%");
+//          Serial.println("--> +24h : " + (String)currentProbaPluie[7] + "%");
 
           int yesRain = 0;
           maxRainValueDetected = 0;
@@ -630,7 +639,7 @@ void SendStatusToCloud(int willRain) {
   int i = 0;
   while (!sendOK)
   {
-    connectWifi();
+    //connectWifi();
     http.begin("http://api.thingspeak.com/update?api_key=M7RUFRWZCHQVKJJX&field2=" + (String)vcc + "&field1="+ (String)willRain + "&field3=" + (String)maxRainValueDetected);
     //Serial.println("http://api.thingspeak.com/update?api_key=M7RUFRWZCHQVKJJX&field2=" + (String)vcc + "&field1="+ (String)willRain);
     int httpCode = http.GET();
