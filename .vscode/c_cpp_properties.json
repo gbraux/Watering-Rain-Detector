@@ -13,8 +13,8 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\libraries\\ESP8266WiFi\\src",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\cores",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\libraries\\ESP8266WiFi\\src",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\NTPClient",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\Time",
                     "${workspaceRoot}"
@@ -40,8 +40,8 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\libraries\\ESP8266WiFi\\src",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\cores",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\libraries\\ESP8266WiFi\\src",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\NTPClient",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\Time",
                     "${workspaceRoot}"
@@ -54,8 +54,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceRoot}",
-                "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores",
-                "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\libraries\\ESP8266WiFi\\src",
+                "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\cores",
+                "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\libraries\\ESP8266WiFi\\src",
                 "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\NTPClient",
                 "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\Time",
                 "C:\\Program Files (x86)\\Cppcheck"
@@ -68,8 +68,8 @@
             "browse": {
                 "path": [
                     "${workspaceRoot}",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\cores",
-                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.3.0\\libraries\\ESP8266WiFi\\src",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\cores",
+                    "C:\\Users\\gubraux\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0-beta1\\libraries\\ESP8266WiFi\\src",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\NTPClient",
                     "C:\\Users\\gubraux\\Documents\\Arduino\\libraries\\Time",
                     "C:\\Program Files (x86)\\Cppcheck"
@@ -79,5 +79,5 @@
             }
         }
     ],
-    "version": 3
+    "version": 4
 }
